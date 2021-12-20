@@ -120,104 +120,91 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
+import ImageInterface from '@/models/Image';
 
 export default defineComponent({
   name: 'ImageUploader',
   props: {
     images: {
-      type: Array,
+      type: Array as PropType<Array<ImageInterface>>,
       default: () => [],
     },
     multiple: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: false,
     },
     customWrap: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: false,
     },
   },
   emits: ['update:images'],
-  data: () => ({
-    error: '',
-  }),
+  data() {
+    return {
+      error: '',
+    }
+  },
   computed: {
     imagesList: {
-      get() {
+      get(): Array<ImageInterface> {
         return this.images
       },
-      set(value) {
+      set(value: Array<ImageInterface>) {
         this.$emit(`update:images`, value)
       },
     },
   },
   methods: {
-    fileRender(file) {
-      const reader = new FileReader()
-
-      reader.onloadend = function () {
-        return reader.result
-      }
-
-      if (file) {
-        return reader.readAsDataURL(file)
-      } else {
-        return ''
-      }
-    },
-
-    onChange() {
-      console.log('change')
-      const files = [...this.$refs.imagesList.files]
+    onChange(): void {
+      const imagesList: any = this.$refs.imagesList
+      const files = [...imagesList.files]
       if (!this.imagesList.length) {
         this.imagesList = files.map((p) => {
-          console.log(URL.createObjectURL(p))
           p.src = URL.createObjectURL(p)
           return p
         })
       } else {
         this.imagesList.push(
           ...files.map((p) => {
-            console.log(URL.createObjectURL(p))
             p.src = URL.createObjectURL(p)
             return p
           })
         )
       }
     },
-    remove(i) {
+    remove(i: number): void {
       this.imagesList.splice(i, 1)
     },
-    dragover(event) {
+    dragover(event: DragEvent): void {
       event.preventDefault()
       // Add some visual fluff to show the user can drop its files
-      if (!event.currentTarget.classList.contains('bg-green-300')) {
-        event.currentTarget.classList.remove('bg-gray-100')
-        event.currentTarget.classList.add('bg-green-300')
+      if (!(event.currentTarget as HTMLDivElement).classList.contains('bg-green-300')) {
+        (event.currentTarget as HTMLDivElement).classList.remove('bg-gray-100');
+        (event.currentTarget as HTMLDivElement).classList.add('bg-green-300');
       }
     },
-    dragleave(event) {
+    dragleave(event: DragEvent) {
       // Clean up
-      event.currentTarget.classList.add('bg-gray-100')
-      event.currentTarget.classList.remove('bg-green-300')
+      (event.currentTarget as HTMLDivElement).classList.add('bg-gray-100');
+      (event.currentTarget as HTMLDivElement).classList.remove('bg-green-300');
     },
-    drop(event) {
+    drop(event: DragEvent) {
       event.preventDefault()
 
       if (
         !this.multiple &&
-        (this.imagesList.length >= 1 || event.dataTransfer.files.length > 1)
+        (this.imagesList.length >= 1 || (event.dataTransfer as DataTransfer).files.length > 1)
       ) {
         this.error = "Can't drop more then 1 file"
       } else {
-        this.$refs.imagesList.files = event.dataTransfer.files
+        (this.$refs.imagesList as any).files = (event.dataTransfer as DataTransfer).files
         this.onChange() // Trigger the onChange event manually
       }
       // Clean up
-      event.currentTarget.classList.add('bg-gray-100')
-      event.currentTarget.classList.remove('bg-green-300')
+      (event.currentTarget as HTMLDivElement).classList.add('bg-gray-100');
+      (event.currentTarget as HTMLDivElement).classList.remove('bg-green-300');
     },
   },
 })

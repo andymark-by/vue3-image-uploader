@@ -1,7 +1,13 @@
 import './css/index.css'
-import ImageUploader from './ImageUploader'
+import ImageUploader from './ImageUploader.vue'
 
-const install = (Vue) => {
+declare global {
+  interface Window { Vue: any; }
+}
+
+window.Vue = window.Vue || {};
+
+const install = (Vue: any) => {
   Vue.component(ImageUploader.name, ImageUploader)
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "vue3-image-uploader",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Image loader for Vue 3, displays image previews and the ability to switch multiple modes",
   "author": "Andy Mark",
   "scripts": {
@@ -13,16 +13,21 @@
   "files": [
     "dist/"
   ],
+  "dependencies": {
+    "vue-class-component": "^8.0.0-0"
+  },
   "devDependencies": {
-    "vue": "^3.0.11",
-    "@vue/compiler-sfc": "^3.0.11",
-    "@vue/cli-service": "^4.5.12",
-    "vue-loader": "^16.2.0",
-    "vue-template-compiler": "^2.6.12",
     "@tailwindcss/postcss7-compat": "^2.1.0",
+    "@vue/cli-plugin-typescript": "^4.5.15",
+    "@vue/cli-service": "^4.5.12",
+    "@vue/compiler-sfc": "^3.0.11",
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.35",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.0"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.0",
+    "typescript": "~4.1.5",
+    "vue": "^3.0.11",
+    "vue-loader": "^16.2.0",
+    "vue-template-compiler": "^2.6.12"
   },
   "bugs": {
     "url": "https://github.com/andymark-by/vue3-image-uploader/issues"
